@@ -79,30 +79,30 @@ Liquibase scripts for initial database:
 queue.url=https://sqs.us-west-1.amazonaws.com/843885655249/eventbus
 
 aws.clientRegion=us-west-1
-aws.accessKey=AKIAIZJFXMLKHXFA474A
-aws.secretKey=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
+aws.accessKey=<access key>
+aws.secretKey=<secret key>
 
 ```
 4.2. [Monitoring Service property file](https://github.com/Nurkambay/monitoring-poc/blob/master/monitoring-service/src/main/resources/application.properties)
 ```
 spring.datasource.url=jdbc:mysql://alten.cxx7veyqfyo7.us-west-1.rds.amazonaws.com:3306/monitoring
 spring.datasource.username=root
-spring.datasource.password=rootaltenpassword
+spring.datasource.password=<pswd>
 
 queue.url=https://sqs.us-west-1.amazonaws.com/843885655249/eventbus
 queue.max.messages=10
 queue.schedule=5000
 
 aws.clientRegion=us-west-1
-aws.accessKey=AKIAIZJFXMLKHXFA474A
-aws.secretKey=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
+aws.accessKey=<access key>
+aws.secretKey=<secret key>
 ```
 
 4.3. [Monitoring Site property file](https://github.com/Nurkambay/monitoring-poc/blob/master/monitoring-site/src/main/resources/application.properties)
 ```
 spring.datasource.url=jdbc:mysql://alten.cxx7veyqfyo7.us-west-1.rds.amazonaws.com:3306/monitoring
 spring.datasource.username=root
-spring.datasource.password=rootaltenpassword
+spring.datasource.password=<pswd>
 ```
 
 5. Build with maven
