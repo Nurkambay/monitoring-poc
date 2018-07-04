@@ -9,7 +9,7 @@ Vehicle sends status to Monitoring System and end user can monitor vehicle statu
 ![Monitoring System Design](https://docs.google.com/drawings/d/e/2PACX-1vSpZRgcqXSRAcG2e3ZTaddAd-HuCAo1s6Em1siCE1YyHnhmmqmZ7E55Dm2NwYxAnnmS-5Xnl2WFGziX/pub?w=927&h=432)
 
 
-##### Monitoring System must be:
+### Monitoring System must be:
 
 1. High availability for vehicle request
 2. Even if some parts of a system down Vehicle Request must be received
@@ -17,17 +17,17 @@ Vehicle sends status to Monitoring System and end user can monitor vehicle statu
 
 In that case Monitoring System should have Microservice Architecture with separated microservices.
 
-##### Infrastructure
+### Infrastructure
 For the infrastructure was chosen Amazon Web Services with wide abilities to setup, monitor and scale web applications.
 
-##### Platform
+### Platform
 For AWS applications one of the best platforms is Java 8 platform.
 
-##### Framework
+### Framework
 Java Spring Boot provides ORM, Test frameworks, dependency injections, etc. 
 
 
-##### Microservices
+### Microservices
 1. Monitoring Receiver (monitoring-receiver module)
     Receives Vehicle Requests VIA REST Api and send payload to AWS SQS queue
     
@@ -39,7 +39,7 @@ Java Spring Boot provides ORM, Test frameworks, dependency injections, etc.
     Monitoring Site is one page site with list of vehicles
     
 
-##### Pluses of current architecture
+### Pluses of current architecture
 1. Each of microservices can be updated and re-deployed independently.
 2. Re-deployment of Monitoring Site does not affect to Vehicle request processing
 3. re-deployment of Monitoring Service do not stop receiving Vehicle requests
@@ -114,7 +114,7 @@ spring.datasource.password=rootaltenpassword
     3.1. Elastic Beanstalk (jar or docker image)
     3.2. Cluster Management Service (docker image)
 
-##### Future improvements
+### Future improvements
 1. Application properties must be based on environment variables
 2. Build docker images (if needed) must be a part of building process
 
@@ -131,7 +131,7 @@ To switch off vehicle simulation change following application property:
 Monitoring system microservice applications can be deployed to AWS Lambda.
 AWS Lambda provides serverless infrastructure for applications and triggers.
 
-##### What should be done
+### What should be done
 1. Monitoring Receiver (monitoring-receiver module)
     Add Lambda infrastructure integration
 
