@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="Leonid" id="table-customer-create">
+        <createTable tableName="customer">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Leonid" id="table-vehicle-create">
+        <createTable tableName="vehicle">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_updated_at" type="datetime(6)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="vin" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="regno" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Leonid" id="table-customer_vehicle-create">
+        <createTable tableName="customer_vehicle">
+            <column name="customer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vehicle_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Leonid" id="primary-index-customer_vehicle-create">
+        <addPrimaryKey columnNames="customer_id, vehicle_id" constraintName="PRIMARY" tableName="customer_vehicle"/>
+    </changeSet>
+    <changeSet author="Leonid" id="index-vehicle-create-unique">
+        <createIndex indexName="index-vehicle-vin" tableName="vehicle">
+            <column name="vin"/>
+        </createIndex>
+        <createIndex indexName="index-vehicle-regno" tableName="vehicle" unique="true">
+            <column name="regno"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Leonid" id="1528883285866-47">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="customer_vehicle"
+                                 constraintName="FK92ldsqrrma2bp4usfmqfpr5jq" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="customer"/>
+    </changeSet>
+    <changeSet author="Leonid" id="1528883285866-59">
+        <addForeignKeyConstraint baseColumnNames="vehicle_id" baseTableName="customer_vehicle"
+                                 constraintName="FKrqi3osbfcp1g6ntc6ctmh6hcp" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="vehicle"/>
+    </changeSet>
+
+    <changeSet author="Leonid" id="add-initial-data">
+        <insert tableName="customer">
+            <column name="id" valueNumeric="1"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="name" value="Kalles Grustransporter AB"/>
+            <column name="address" value="Cementvägen 8, 111 11 Södertälje"/>
+        </insert>
+        <insert tableName="customer">
+            <column name="id" valueNumeric="2"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="name" value="Johans Bulk AB"/>
+            <column name="address" value="Balkvägen 12, 222 22 Stockholm"/>
+        </insert>
+        <insert tableName="customer">
+            <column name="id" valueNumeric="3"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="name" value="Haralds Värdetransporter AB"/>
+            <column name="address" value="Budgetvägen 1, 333 33 Uppsala"/>
+        </insert>
+
+        <insert tableName="vehicle">
+            <column name="id" valueNumeric="1"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="vin" value="YS2R4X20005399401"/>
+            <column name="regno" value="ABC123"/>
+        </insert>
+        <insert tableName="vehicle">
+            <column name="id" valueNumeric="2"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="vin" value="VLUR4X20009093588"/>
+            <column name="regno" value="DEF456"/>
+        </insert>
+        <insert tableName="vehicle">
+            <column name="id" valueNumeric="3"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="vin" value="VLUR4X20009048066"/>
+            <column name="regno" value="GHI789"/>
+        </insert>
+        <insert tableName="vehicle">
+            <column name="id" valueNumeric="4"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="vin" value="YS2R4X20005388011"/>
+            <column name="regno" value="JKL012"/>
+        </insert>
+        <insert tableName="vehicle">
+            <column name="id" valueNumeric="5"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="vin" value="YS2R4X20005387949"/>
+            <column name="regno" value="MNO345"/>
+        </insert>
+        <insert tableName="vehicle">
+            <column name="id" valueNumeric="6"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="vin" value="VLUR4X20009048066"/>
+            <column name="regno" value="PQR678"/>
+        </insert>
+        <insert tableName="vehicle">
+            <column name="id" valueNumeric="7"/>
+            <column name="created_at" valueDate="SYSDATE()"/>
+            <column name="updated_at" valueDate="SYSDATE()"/>
+            <column name="vin" value="YS2R4X20005387055"/>
+            <column name="regno" value="STU901"/>
+        </insert>
+
+        <insert tableName="customer_vehicle">
+            <column name="customer_id" valueNumeric="1"/>
+            <column name="vehicle_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="customer_vehicle">
+            <column name="customer_id" valueNumeric="1"/>
+            <column name="vehicle_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="customer_vehicle">
+            <column name="customer_id" valueNumeric="1"/>
+            <column name="vehicle_id" valueNumeric="3"/>
+        </insert>
+
+        <insert tableName="customer_vehicle">
+            <column name="customer_id" valueNumeric="2"/>
+            <column name="vehicle_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="customer_vehicle">
+            <column name="customer_id" valueNumeric="2"/>
+            <column name="vehicle_id" valueNumeric="5"/>
+        </insert>
+
+        <insert tableName="customer_vehicle">
+            <column name="customer_id" valueNumeric="3"/>
+            <column name="vehicle_id" valueNumeric="6"/>
+        </insert>
+        <insert tableName="customer_vehicle">
+            <column name="customer_id" valueNumeric="3"/>
+            <column name="vehicle_id" valueNumeric="7"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,191 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/color.css">
+
+        <script src="js/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="css/loading.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <body>
+
+    <h2 style="text-align:center">Vehicles Monitoring</h2>
+
+    <div style="padding: 35px;">
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Vehicle Filter</div>
+
+        <!-- Table -->
+        <table id="filter_panel" class="table">
+            <tr>
+                <td width = "200px">
+
+                    <div class="dropdown">
+                        Vehicle Status
+                        <button class="btn btn-default dropdown-toggle" id="s_status" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Any
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dd_status">
+                            <li value="0"><a href="#">Any</a></li>
+                            <li value="1"><a href="#">Online</a></li>
+                            <li value="2"><a href="#">Offline</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td width="350px">
+                    <div class="dropdown">
+                        Customer
+                        <button class="btn btn-default dropdown-toggle" id="s_owner" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Any
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dd_owner">
+                            <li value="-1"><a href="#">Any</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-primary" type= "button" id="submit">Refresh</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="height:40px;width:100%;text-align:center;">
+        <i id="loading" class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Vehicle list</div>
+        <table id="report_table" class="table">
+            <thead>
+            <tr>
+                <th width="150dp" style="text-align:center">Reg. Number</th>
+                <th width="350" style="text-align:center">VIN</th>
+                <th width="150" style="text-align:center">Status</th>
+                <th style="text-align:center">Owners</th>
+            </tr>
+            </thead>
+            <tbody id="tbodyid">
+            </tbody>
+        </table>
+    </div>
+    </div>
+    </body>
+
+    <script language="javascript">
+
+        var refreshOwners = function() {
+            var path = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: path + "customer/list",
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $('#dd_owner').append('<li value="'+ data[i].id
+                            +'"><a href="#">'+data[i].name+'</a></li>');
+                    }
+
+                    $(".dropdown-menu li a").click(function(){
+                        $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+                        $(this).parents(".dropdown").find('.btn').val($(this).parent().val());
+                        refreshTable();
+                    });
+
+
+                    // $('.dropdown-toggle').dropdown();
+
+                }
+             }).fail(function(e) { });
+        };
+
+        var refreshTable = function() {
+
+            var status = $("#s_status").val();
+            var owner = $("#s_owner").val();
+
+            if (status == "") {
+                status = 0;
+            }
+
+            var json = JSON.stringify({
+                status: status,
+                owner: owner
+            });
+
+            var path = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: path + "vehicle/filter",
+                type: 'POST',
+                dataType: 'json',
+                data: json,
+                contentType: 'application/json',
+                success: function(data) {
+                    $("#tbodyid").empty();
+
+                    for (var i = 0; i < data.length; i++) {
+                        $('#report_table').append('<tr><td>'
+                         + data[i].regno + '</td><td>'
+                         + data[i].vin +   '</td><td style="text-align:center">'
+                         + (data[i].online == false ?
+                            '<div class="bg-danger" style="padding:5px"><strong>Offline</strong></div>'
+                            :
+                            '<div class="bg-success" style="padding:5px"><strong>Online</strong></div>') + '</td><td>'
+                         + data[i].owners
+                         + '</td></tr>');
+                    }
+                }
+             }).fail(function(e) { });
+        };
+
+        $(document).on({
+            ajaxStart: function() {
+                $('#loading').show();
+                $('#s_status').prop( "disabled", true);
+                $('#s_owner').prop( "disabled", true);
+
+            },
+            ajaxStop: function() {
+                $('#loading').hide();
+                $('#s_status').prop( "disabled", false);
+                $('#s_owner').prop( "disabled", false);
+            }
+        });
+
+        $(document).ready( function () {
+            refreshOwners();
+            refreshTable();
+            setInterval(function() {
+                refreshTable();
+            }, 10000);
+        });
+
+        $("#submit").click(function(){
+            refreshTable();
+         });
+    </script>
+
+</html>
