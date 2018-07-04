@@ -144,3 +144,7 @@ AWS Lambda provides serverless infrastructure for applications and triggers.
     Add Lambda infrastructure integration and setup Amazon API Gateway for Lambda
 
 
+## Deployed example with switched off Vehicle Simulation
+[Monitoring Site](http://monitoringsite-env.fvqaajdqge.us-west-1.elasticbeanstalk.com/index.html)
+[Monitoring Receiver](http://receiver.us-west-1.elasticbeanstalk.com/swagger-ui.html)
+ 
