@@ -123,7 +123,9 @@ spring.datasource.password=<pswd>
 By default is switched on.
 
 To switch off vehicle simulation change following application property:
-
+```
+simulator.enabled=true
+```
 [Application properties fle](https://github.com/Nurkambay/monitoring-poc/blob/master/monitoring-receiver/src/main/resources/application.properties)
 
 ## Serverless deployment possibility
