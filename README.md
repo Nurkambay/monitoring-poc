@@ -112,7 +112,7 @@ spring.datasource.password=<pswd>
 
 7. Deploy to AWS
     3.1. Elastic Beanstalk (jar or docker image)
-    3.2. Cluster Management Service (docker image)
+    3.2. Elastic Container Service (docker image)
 
 ### Future improvements
 1. Application properties must be based on environment variables
