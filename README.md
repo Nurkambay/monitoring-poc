@@ -64,7 +64,7 @@ Current solution can be deployed on AWS by two ways:
 1. Using Elastic Beanstalk
     Elastic Beanstalk allows to deploy Java 8 web applications with or without dockerization and setup Load Balancer for high perfomance and availability.
     
-2. Cluster Management Service
+2. Elastic Container Service
     
 Database can be easily setted up on Amazon RDS.
 Liquibase scripts for initial database:
