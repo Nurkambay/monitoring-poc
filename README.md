@@ -66,7 +66,7 @@ Current solution can be deployed on AWS by two ways:
     
 2. Elastic Container Service
     
-Database can be easily setted up on Amazon RDS.
+Database can be easily set up on Amazon RDS.
 Liquibase scripts for initial database:
 
 ## Deployment steps
